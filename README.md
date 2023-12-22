@@ -50,45 +50,22 @@ bash 01_python_test.sh
 ## OpenCV C++ 安装
 1. 安装依赖
 ```bash
-sudo apt-get install cmake
-sudo apt-get install build-essential libgtk2.0-dev libavcodec-dev libavformat-dev libjpeg-dev libswscale-dev libtiff5-dev
-sudo apt-get install libgtk2.0-dev
-sudo apt-get install pkg-config
+sudo apt-get install cmake build-essential libgtk2.0-dev libavcodec-dev libavformat-dev libjpeg-dev libpng-dev libswscale-dev libtiff5-dev libgtk2.0-dev pkg-config python3-distutils
 ```
 2. 下载OpenCV 4.8.0源码
 ```bash
-wget https://github.com/opencv/opencv/archive/refs/tags/4.8.1.tar.gz
-tar -xvf opencv-4.8.1.tar.gz
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
+unzip opencv.zip
 ```
 3. 编译OpenCV
 ```bash
-cd opencv-4.8.1
-mkdir build && cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE \
--D BUILD_opencv_dnn=OFF \
--D BUILD_libwebp=OFF \
--D BUILD_opencv_imgcodecs=OFF \
--D BUILD_opencv_gpu=OFF  \
--D BUILD_DOCS=OFF \
--D BUILD_PERF_TESTS=OFF \
--D BUILD_TESTS=OFF \
--D BUILD_WITH_DEBUG_INFO=OFF \
--D BUILD_opencv_apps=OFF \
--D BUILD_opencv_calib3d=OFF \
--D BUILD_opencv_contrib=OFF \
--D BUILD_opencv_features2d=OFF \
--D BUILD_opencv_flann=OFF \
--D BUILD_opencv_gpu=OFF \
--D BUILD_opencv_ml=OFF \
--D BUILD_opencv_nonfree=OFF \
--D BUILD_opencv_objdetect=OFF \
--D BUILD_opencv_photo=OFF \
--D BUILD_opencv_stitching=OFF \
--D BUILD_opencv_superres=OFF \
--D BUILD_opencv_ts=OFF \
--D BUILD_opencv_video=OFF \
--D BUILD_opencv_videostab=OFF \
--D CMAKE_INSTALL_PREFIX=/usr/local ../
+cd opencv-4.x
+mkdir -p build && cd build
+```
+```bash
+cmake \
+-D PNG_LIBRARY_RELEASE=/usr/lib/aarch64-linux-gnu/libpng.so \
+../
 
 make -j4
 sudo make install
