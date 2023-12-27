@@ -25,7 +25,7 @@ cmake .. && make -j2
 ```
 3. 运行
 ```bash
-./00_cpp_test_single_core && ./01_cpp_test_all_core 
+./00_cpp_test_all_core && ./01_cpp_test_single_core 
 ```
 4. 查看运行结果   
 运行结束后，C/C++程序生成的图片结果在```./result_cpp/```目录下。       
