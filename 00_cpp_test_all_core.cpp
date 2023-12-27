@@ -10,8 +10,8 @@
 
 namespace fs = std::filesystem;
 
-static int runNum = 1;    // 运行次数(计入总时间, 求平均)
-static int preNum = 1;     // 在总次数之前的预热次数(不计入总时间)
+static int runNum = 100;    // 运行次数(计入总时间, 求平均)
+static int preNum = 20;     // 在总次数之前的预热次数(不计入总时间)
 std::stringstream FPS_DATA;
 std::stringstream MS_DATA;
 

@@ -3,8 +3,8 @@ import cv2, os, psutil
 from time import time, sleep
 
 targetCore = 3     # 被指定的CPU核
-runNum = 1    # 运行次数(计入总时间, 求平均)
-preNum = 2  # 在总次数之前的预热次数(不计入总时间)
+runNum = 100    # 运行次数(计入总时间, 求平均)
+preNum = 20  # 在总次数之前的预热次数(不计入总时间)
 FPS_DATA = ""
 MS_DATA = ""
 
