@@ -3,14 +3,19 @@ import cv2, os, psutil
 from time import time, sleep
 
 targetCore = 3     # 被指定的CPU核
-runNum = 100      # 运行次数(计入总时间, 求平均)
-preNum = 20   # 在总次数之前的预热次数(不计入总时间)
+runNum = 1    # 运行次数(计入总时间, 求平均)
+preNum = 2  # 在总次数之前的预热次数(不计入总时间)
+FPS_DATA = ""
+MS_DATA = ""
 
 # 控制台输出性能信息(传入的时间是秒)
 def print_performance(operation, ave_seconds):
+    global FPS_DATA, MS_DATA
     fps = 1.0 / ave_seconds
     average_time_ms = 1000*ave_seconds
     print("%-16sFPS: \033[31m%6.1f\033[0m, Time(ms): \033[31m%5.1f\033[0m"%(operation+",",fps,average_time_ms))
+    FPS_DATA += "%6.1f\n"%fps
+    MS_DATA += "%5.1f\n"%average_time_ms
 
 # 高斯滤波
 def guassian(img, size):
@@ -159,7 +164,10 @@ def main():
     except AttributeError:
         print("\n\033[1;32;41m Error: Unable to set CPU affinity\033[0m")
         exit()
-
+    # 记录输出数据到文本文件
+    global FPS_DATA, MS_DATA
+    FPS_DATA += "00_cpp_test_all_core.cpp\n FPS DATA\n"
+    MS_DATA += "00_cpp_test_all_core.cpp\n MS DATA\n"
     for image, size in zip(images, sizes):
         print(f"\n\033[32m************ {size}(single core: {targetCore}) ************\033[0m")
         guassian(image, size)
@@ -170,6 +178,15 @@ def main():
         canny(image, size)
         correct(image, size)
         face_detect(image, size)
+    # 按照测试顺序保存到本地
+    saveData = FPS_DATA + MS_DATA
+    try:
+        with open('./log_03_py_test_single_core.txt', 'w') as f:
+            # 将字符串写入文件
+            f.write(saveData)
+        print("\n\033[1;32;41m 保存成功！ \033[0m")
+    except:
+        print("\n\033[1;32;41m 保存失败！ \033[0m")
 
 if __name__ == "__main__":
     main()

@@ -14,6 +14,7 @@ sudo python3 02_py_test_all_core.py  && sudo python3 03_py_test_single_core.py
 ```
 2. 查看测试结果   
 运行结束后，python程序生成的图片结果在```./python_result/```目录下。
+所有的FPS数据和毫秒数据都记录在```log_02_py_test_all_core.txt```和```log_03_py_test_single_core.txt```文件内，只需要直接拷贝即可与飞书云文档对应上。
 ## C/C++部分
 1. 创建build编译目录
 ```bash
@@ -28,7 +29,8 @@ cmake .. && make -j2
 ./00_cpp_test_all_core && ./01_cpp_test_single_core 
 ```
 4. 查看运行结果   
-运行结束后，C/C++程序生成的图片结果在```./result_cpp/```目录下。       
+运行结束后，C/C++程序生成的图片结果在```./result_cpp/```目录下。      
+所有的FPS数据和毫秒数据都记录在```log_00_cpp_test_all_core.txt```和```log_01_cpp_test_single_core.txt```文件内，只需要直接拷贝即可与飞书云文档对应上。
 
 # 参考指令
 ## 将设备设置为性能模式

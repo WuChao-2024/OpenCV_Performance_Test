@@ -4,12 +4,17 @@
 #include <sched.h>
 #include <filesystem>
 #include <thread>
+#include <sstream>
+#include <fstream>
+#include <string>
 
 namespace fs = std::filesystem;
 
 static int targetCore = 3;  // CPU核
-static int runNum = 100;    // 运行次数(计入总时间, 求平均)
-static int preNum = 20;     // 在总次数之前的预热次数(不计入总时间)
+static int runNum = 1;    // 运行次数(计入总时间, 求平均)
+static int preNum = 1;     // 在总次数之前的预热次数(不计入总时间)
+std::stringstream FPS_DATA;
+std::stringstream MS_DATA;
 
 //控制台输出性能信息(传入的时间是微秒)
 void print_performance(const std::string& operation, double ave_microseconds) {
@@ -21,6 +26,8 @@ void print_performance(const std::string& operation, double ave_microseconds) {
     std::cout << "FPS: \033[31m" << std::fixed << std::setprecision(1) << std::setw(6) << fps << "\033[0m";
     // 耗时的毫秒，以红色字体，保留一位小数，最小宽度5输出
     std::cout << ", Time(ms): \033[31m" << std::fixed << std::setprecision(1) << std::setw(5) << average_time_ms << "\033[0m" << std::endl;
+    FPS_DATA << std::fixed << std::setprecision(1) << std::setw(6) << fps << "\n";
+    MS_DATA << std::fixed << std::setprecision(1) << std::setw(5) << average_time_ms << "\n";
 }
 
 //高斯滤波
@@ -202,7 +209,10 @@ int main() {
         std::cerr << "\n\033[1;32;41m Error: Unable to set CPU affinity\033[0m" << std::endl;
         return -1;
     }
-
+    // 记录输出数据到文本文件
+    FPS_DATA  << "00_cpp_test_all_core.cpp\n FPS DATA\n";
+    MS_DATA << "00_cpp_test_all_core.cpp\n MS DATA\n";
+    // 开始跑分
     for (int i = 0 ; i < images.size() ; i++){
         std::cout<<"\n\033[32m************ "<<sizes[i]<<"(single core: " << targetCore <<") ************\033[0m"<<std::endl;
         guassian(images[i], sizes[i]);
@@ -214,5 +224,14 @@ int main() {
         correct(images[i], sizes[i]);
         face_detect(images[i], sizes[i]);
 	}
+    // 按照测试顺序保存到本地
+    std::string saveData = FPS_DATA.str() + MS_DATA.str();
+    std::ofstream outfile("../log_01_cpp_test_single_core.txt", std::ios::out);
+    if (!outfile.is_open()) {
+        std::cerr << "Unable to open file";
+        return 1;
+    }
+    outfile << saveData;
+    outfile.close();
     return 0;
 }

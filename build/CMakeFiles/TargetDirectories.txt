@@ -1,0 +1,4 @@
+/root/OpenCV_Performance_Test/build/CMakeFiles/rebuild_cache.dir
+/root/OpenCV_Performance_Test/build/CMakeFiles/edit_cache.dir
+/root/OpenCV_Performance_Test/build/CMakeFiles/01_cpp_test_single_core.dir
+/root/OpenCV_Performance_Test/build/CMakeFiles/00_cpp_test_all_core.dir
