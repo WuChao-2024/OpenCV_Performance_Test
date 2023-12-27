@@ -5,11 +5,11 @@ project(test)
 find_package(OpenCV REQUIRED)
 
 # 添加可执行文件
-add_executable(00_cpp_test_single_core 00_cpp_test_single_core.cpp)
+add_executable(00_cpp_test_all_core 00_cpp_test_all_core.cpp)
 # 链接OpenCV库
-target_link_libraries(00_cpp_test_single_core ${OpenCV_LIBS})
+target_link_libraries(00_cpp_test_all_core ${OpenCV_LIBS})
 
 # 添加可执行文件
-add_executable(01_cpp_test_all_core 01_cpp_test_all_core.cpp)
+add_executable(01_cpp_test_single_core 01_cpp_test_single_core.cpp)
 # 链接OpenCV库
-target_link_libraries(01_cpp_test_all_core ${OpenCV_LIBS})
+target_link_libraries(01_cpp_test_single_core ${OpenCV_LIBS})
