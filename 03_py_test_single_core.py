@@ -166,8 +166,8 @@ def main():
         exit()
     # 记录输出数据到文本文件
     global FPS_DATA, MS_DATA
-    FPS_DATA += "00_cpp_test_all_core.cpp\n FPS DATA\n"
-    MS_DATA += "00_cpp_test_all_core.cpp\n MS DATA\n"
+    FPS_DATA += "03_py_test_single_core.py\n FPS DATA\n"
+    MS_DATA += "03_py_test_single_core.py\n MS DATA\n"
     for image, size in zip(images, sizes):
         print(f"\n\033[32m************ {size}(single core: {targetCore}) ************\033[0m")
         guassian(image, size)
