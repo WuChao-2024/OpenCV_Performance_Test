@@ -1,3 +1,36 @@
+# 说明
+1. 此项目用于在嵌入式设备上测试OpenCV相关函数的性能，测试项目包括前处理常用功能和人脸检测的算法，C/C++代码和Python代码具有相同参数和功能。
+2. 关于CPU亲和性：C++程序和Python程序均有绑定某一个核心运行的部分，和默认所有核心全开的部分，这在控制台输出内容均有体现。其中：绑定某一个核心运行的成绩能反映单核心的能力，OpenCV部分算法有并行处理，这部分成绩能反映整个SoC的能力。特别的，单核心部分RK3588需要单独测试A76大核心和A55小核心.
+3. 在测试代码中充分考虑了缓存和预热：在第一次迭代中，CPU缓存可能还没有被充分填充，这可能导致首次迭代的时间较长。随着迭代次数的增加，CPU缓存的效果会更好，因此后续迭代的时间可能会更短。
+4. OpenCV版本：4.8.1; Python版本：3.10.x; 
+5. 参考测试图像:回眸女郎Lenna，通过原图裁剪，720p以上分辨率通过cv2.INTER_LANCZOS4插值方法放大而来。
+
+# 使用方式
+注：所需要的前置操作参考最后一章节
+## Python部分
+1. 运行Python脚本
+```bash
+sudo python3 02_py_test_all_core.py  && sudo python3 03_py_test_single_core.py 
+```
+2. 查看测试结果   
+运行结束后，python程序生成的图片结果在```./python_result/```目录下。
+## C/C++部分
+1. 创建build编译目录
+```bash
+mkdir -p build && cd build
+```
+2. 编译
+```bash
+cmake .. && make -j2
+```
+3. 运行
+```bash
+./00_cpp_test_single_core && ./01_cpp_test_all_core 
+```
+4. 查看运行结果   
+运行结束后，C/C++程序生成的图片结果在```./result_cpp/```目录下。       
+
+# 参考指令
 ## 将设备设置为性能模式
 1. Orange Pi 5
 ```bash
@@ -43,10 +76,11 @@ apt install python3-pip
 ```bash
 pip install opencv-python -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
-3. 运行一键测试脚本
+3. 安装 ```psutil``` 包
 ```bash
-bash 01_python_test.sh
+pip install psutil -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
+
 ## OpenCV C++ 安装
 1. 安装依赖
 ```bash
@@ -63,23 +97,14 @@ cd opencv-4.x
 mkdir -p build && cd build
 ```
 ```bash
+cmake ..
+```
+香橙派使用以下指令
+```bash
 cmake \
 -D PNG_LIBRARY_RELEASE=/usr/lib/aarch64-linux-gnu/libpng.so \
 ../
 
-make -j4
+make -j8
 sudo make install
 ```
-2. 编译完成后，在终端输入以下命令查看是否安装成功：
-```bash
-pkg-config --modversion opencv
-```
-如果显示版本号，说明安装成功。
-
-# 编译和运行程序
-```bash
-g++ -o main main.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui
-./main
-```
-# 运行结果
-![运行结果]()
